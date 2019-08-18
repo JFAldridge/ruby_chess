@@ -1,3 +1,10 @@
+require_relative 'rook.rb'
+require_relative 'knight.rb'
+require_relative 'bishop.rb'
+require_relative 'queen.rb'
+require_relative 'king.rb'
+require_relative 'pawn.rb'
+
 class Board
   def initialize
     @current_state = []
@@ -14,3 +21,6 @@ class Board
     @current_state.push([Rook.new('white'), Knight.new('white'), Bishop.new('white'), Queen.new('white'), King.new('white'), Bishop.new('white'), Knight.new('white'), Rook.new('white')])
   end
 end
+
+board = Board.new
+puts board.current_state
