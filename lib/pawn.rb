@@ -8,15 +8,19 @@ class Pawn < Pieces
 
   def is_move_allowed?(loc, dest)
     allowed_moves = find_allowed_moves(loc[0], loc[1])
+    
     allowed_moves.include?(dest)
   end
 
   def find_allowed_moves(y, x)
     move_list = []
+
     move_list.push([y + @y_move, x]) if open_space?(y + @y_move, x)
-    move_list.push([y + @y_move, x - 1]) if opponent_piece(y + @y_move, x - 1)
-    move_list.push([y + @y_move, x + 1]) if opponent_piece(y + @y_move, x + 1)
+    move_list.push([y + @y_move, x - 1]) if opponent_piece?(y + @y_move, x - 1)
+    move_list.push([y + @y_move, x + 1]) if opponent_piece?(y + @y_move, x + 1)
     move_list.push([y + @y_move * 2, x]) if two_forward_allowed?(y, x)
+
+    move_list
   end
 
   def two_forward_allowed?(y, x)
@@ -30,15 +34,12 @@ class Pawn < Pieces
     false
   end
 
+  def opponent_piece?(y, x)
+    return false if open_space?(y, x)
+    @board.current_state[y][x].b_or_w != @b_or_w 
+  end
+
   def open_space?(y,x)
     @board.current_state[y][x] == 0
-  end
-
-  def opponent_piece?(y, x)
-    @board.current_state[y][x].b_or_w == @b_or_w 
-  end
-
-  def ally_piece?(y, x)
-    @board.current_state[y][x].b_or_w != @b_or_w 
   end
 end
