@@ -160,3 +160,29 @@ describe Queen do
     end
   end
 end
+
+describe Knight do
+  before { @board = Board.new }
+
+  describe '#is_move_allowed?' do
+  
+    describe 'rejects invalid move' do
+      it 'into allied pawn' do
+        expect(@board.current_state[0][1].is_move_allowed?([0, 1], [1, 3])).to eq(false)
+      end
+      it 'outside range' do
+        expect(@board.current_state[0][1].is_move_allowed?([0, 1], [2, 3])).to eq(false)
+      end
+    end
+
+    describe 'accepts valid move' do
+      it 'into empty space' do
+        expect(@board.current_state[0][1].is_move_allowed?([0, 1], [2, 2])).to eq(true)
+      end
+      it 'into enemy pawn' do
+        @board.current_state[2][2] = @board.current_state[6][2]
+        expect(@board.current_state[0][1].is_move_allowed?([0, 1], [2, 2])).to eq(true)
+      end
+    end
+  end
+end
