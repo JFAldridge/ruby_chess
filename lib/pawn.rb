@@ -5,13 +5,13 @@ class Pawn < Pieces
     super(b_or_w, board)
     @y_move = @b_or_w == 'white' ? -1 : 1
   end
-
+  
   def is_move_allowed?(loc, dest)
     allowed_moves = find_allowed_moves(loc[0], loc[1])
     
     allowed_moves.include?(dest)
   end
-
+  
   def find_allowed_moves(y, x)
     move_list = []
 
@@ -32,14 +32,5 @@ class Pawn < Pieces
   def is_first_move?(y)
     return true if @b_or_w == 'black' && y == 1 || @b_or_w == 'white' && y == 6
     false
-  end
-
-  def opponent_piece?(y, x)
-    return false if open_space?(y, x)
-    @board.current_state[y][x].b_or_w != @b_or_w 
-  end
-
-  def open_space?(y,x)
-    @board.current_state[y][x] == 0
   end
 end
