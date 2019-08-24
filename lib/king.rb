@@ -28,4 +28,13 @@ class King < Pieces
 
     move_list
   end
+
+  def checks_king?(loc)
+    DIRECTIONS.any? do |dir|
+      next if off_board?(dir[0] + loc[0], dir[1] + loc[1])
+
+      opponent_king?(dir[0] + loc[0], dir[1] + loc[1])
+    end
+  end
+
 end

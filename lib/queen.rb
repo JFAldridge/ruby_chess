@@ -13,4 +13,8 @@ class Queen < Pieces
     allowed_moves.include?(dest)
   end
 
+  def checks_king?(loc)
+    checks_king_crossboard?(loc[0], loc[1], DIRECTIONS)
+  end
+
 end

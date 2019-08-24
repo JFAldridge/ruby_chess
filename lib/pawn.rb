@@ -33,4 +33,12 @@ class Pawn < Pieces
     return true if @b_or_w == 'black' && y == 1 || @b_or_w == 'white' && y == 6
     false
   end
+
+  def checks_king?(loc)
+    return true if opponent_king?(loc[0] + @y_move, loc[1] - 1) 
+    return true if opponent_king?(loc[0] + @y_move, loc[1] + 1)
+
+    false
+  end
+
 end

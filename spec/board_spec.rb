@@ -61,6 +61,17 @@ describe Pawn do
       end
     end
   end
+
+  describe '#checks_king?' do
+    it 'returns true when it can attack the opponents king' do
+      @board.current_state[5][4] = @board.current_state[0][4]
+      expect(@board.current_state[6][3].checks_king?([6, 3])).to eq(true)
+    end
+    it 'returns false when it can not attack the opponents king' do
+      @board.current_state[5][4] = @board.current_state[0][4]
+      expect(@board.current_state[6][3].checks_king?([6, 3])).to eq(true)
+    end
+  end
 end
 
 describe Bishop do
@@ -127,6 +138,18 @@ describe Rook do
       end
     end
   end
+
+  describe '#checks_king?' do
+    it 'returns true when it can attack the opponents king' do
+      @board.current_state[2][4] = @board.current_state[0][0]
+      @board.current_state[6][4] = 0
+      expect(@board.current_state[2][4].checks_king?([2, 4])).to eq(true)
+    end
+    it 'returns false when it can not attack the opponents king' do
+      @board.current_state[2][4] = @board.current_state[0][0]
+      expect(@board.current_state[2][4].checks_king?([2, 4])).to eq(false)
+    end
+  end
 end
 
 describe Queen do
@@ -159,6 +182,18 @@ describe Queen do
       end
     end
   end
+
+  describe '#checks_king?' do
+    it 'returns true when it can attack the opponents king' do
+      @board.current_state[2][4] = @board.current_state[0][3]
+      @board.current_state[6][4] = 0
+      expect(@board.current_state[2][4].checks_king?([2, 4])).to eq(true)
+    end
+    it 'returns false when it can not attack the opponents king' do
+      @board.current_state[2][4] = @board.current_state[0][3]
+      expect(@board.current_state[2][4].checks_king?([2, 4])).to eq(false)
+    end
+  end
 end
 
 describe Knight do
@@ -183,6 +218,16 @@ describe Knight do
         @board.current_state[2][2] = @board.current_state[6][2]
         expect(@board.current_state[0][1].is_move_allowed?([0, 1], [2, 2])).to eq(true)
       end
+    end
+  end
+
+  describe '#checks_king?' do
+    it 'returns true when it can attack the opponents king' do
+      @board.current_state[2][5] = @board.current_state[7][6]
+      expect(@board.current_state[2][5].checks_king?([2, 5])).to eq(true)
+    end
+    it 'returns false when it can not attack the opponents king' do
+      expect(@board.current_state[7][6].checks_king?([7, 6])).to eq(false)
     end
   end
 end
@@ -211,6 +256,16 @@ describe King do
         @board.current_state[6][4] = @board.current_state[1][4]
         expect(@board.current_state[7][4].is_move_allowed?([7, 4], [6, 4])).to eq(true)
       end
+    end
+  end
+
+  describe '#checks_king?' do
+    it 'returns true when it can attack the opponents king' do
+      @board.current_state[6][4] = @board.current_state[0][4]
+      expect(@board.current_state[6][4].checks_king?([6, 4])).to eq(true)
+    end
+    it 'returns false when it can not attack the opponents king' do
+      expect(@board.current_state[0][4].checks_king?([0, 4])).to eq(false)
     end
   end
 end
