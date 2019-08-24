@@ -1,9 +1,9 @@
-require_relative 'rook.rb'
-require_relative 'knight.rb'
-require_relative 'bishop.rb'
-require_relative 'queen.rb'
-require_relative 'king.rb'
-require_relative 'pawn.rb'
+require_relative './pieces/rook.rb'
+require_relative './pieces/knight.rb'
+require_relative './pieces/bishop.rb'
+require_relative './pieces/queen.rb'
+require_relative './pieces/king.rb'
+require_relative './pieces/pawn.rb'
 
 class Board
   def initialize
@@ -20,5 +20,7 @@ class Board
     @current_state.push([Pawn.new('white', self), Pawn.new('white', self), Pawn.new('white', self), Pawn.new('white', self), Pawn.new('white', self), Pawn.new('white', self), Pawn.new('white', self), Pawn.new('white', self)])
     @current_state.push([Rook.new('white', self), Knight.new('white', self), Bishop.new('white', self), Queen.new('white', self), King.new('white', self), Bishop.new('white', self), Knight.new('white', self), Rook.new('white', self)])
   end
+
+
 end
 
