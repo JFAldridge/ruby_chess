@@ -1,10 +1,8 @@
 module Interface
 
-  def get_player_comp_and_names
+  def get_player_names_and_type
     players = []
     player_comp = nil
-    player_one_name = nil
-    player_two_name = nil
     
     puts "Would you like to play against the computer or another human?"
     
