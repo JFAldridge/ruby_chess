@@ -268,4 +268,10 @@ describe King do
       expect(@board.current_state[0][4].checks_king?([0, 4])).to eq(false)
     end
   end
+
+  describe '#puts_into_check?' do
+    it 'returns true if a destination will put the king into check' do
+      expect(@board.current_state[0][4].puts_into_check?([5, 2])).to eq(true)
+    end
+  end
 end
