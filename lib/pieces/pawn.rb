@@ -4,7 +4,10 @@ class Pawn < Pieces
   def initialize(b_or_w, board)
     super(b_or_w, board)
     @y_move = @b_or_w == 'white' ? -1 : 1
+    @uni = @b_or_w == 'white' ? "\u2659" : "\u265F"
   end
+
+  attr_reader :uni
   
   def is_move_allowed?(loc, dest)
     allowed_moves = find_allowed_moves(loc[0], loc[1])

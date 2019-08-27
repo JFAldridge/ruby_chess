@@ -101,6 +101,10 @@ describe Bishop do
       end
     end
   end
+
+  it "holds the proper unicode" do
+    expect(@board.current_state[7][2].uni).to eq("\u2657")
+  end
 end
 
 describe Rook do

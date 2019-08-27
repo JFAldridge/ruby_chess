@@ -5,11 +5,18 @@ class King < Pieces
 
   def initialize(b_or_w, board)
     super(b_or_w, board)
+    @been_moved = false 
+    @uni = @b_or_w == 'white' ? "\u2655" : "\u265B"
   end
+
+  attr_accessor :been_moved
+  attr_reader :uni
 
   def is_move_allowed?(loc, dest)
     allowed_moves = find_allowed_moves(loc[0], loc[1])
     
+    @been_moved = true
+
     allowed_moves.include?(dest)
   end
 
@@ -43,8 +50,6 @@ class King < Pieces
     square_holder = @board.current_state[dest[0]][dest[1]]
 
     @board.current_state[dest[0]][dest[1]] = self.dup
-
-    puts @board.current_state[dest[0]][dest[1]]
     
     is_checked = opponent_locs.any? { |loc| @board.current_state[loc[0]][loc[1]].checks_king?(loc) }
 
@@ -61,7 +66,6 @@ class King < Pieces
         next if space == 0
         if space.b_or_w != b_or_w
           opponent_piece_locations.push([y, x])
-          #puts "[#{y}, #{x}]"
         end 
       end
     end

@@ -5,7 +5,10 @@ class Queen < Pieces
 
   def initialize(b_or_w, board)
     super(b_or_w, board)
+    @uni = @b_or_w == 'white' ? "\u2654" : "\u265A"
   end
+
+  attr_reader :uni
 
   def is_move_allowed?(loc, dest)
     allowed_moves = find_allowed_moves_crossboard(loc[0], loc[1], DIRECTIONS)

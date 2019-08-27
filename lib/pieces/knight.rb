@@ -5,7 +5,10 @@ class Knight < Pieces
 
   def initialize(b_or_w, board)
     super(b_or_w, board)
+    @uni = @b_or_w == 'white' ? "\u2658" : "\u265E"
   end
+
+  attr_reader :uni
 
   def is_move_allowed?(loc, dest)
     allowed_moves = find_allowed_moves(loc[0], loc[1])
