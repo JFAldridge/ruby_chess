@@ -1,7 +1,7 @@
 require_relative 'pieces.rb'
 
 class Bishop < Pieces
-  DIRECTIONS = [[1, 1], [1, -1], [1, -1], [-1, -1]]
+  DIRECTIONS = [[1, 1], [1, -1], [-1, 1], [-1, -1]]
 
   def initialize(b_or_w, board)
     super(b_or_w, board)
