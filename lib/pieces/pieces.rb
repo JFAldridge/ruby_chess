@@ -99,4 +99,20 @@ class Pieces
     opponent_piece_locations
   end
 
+  #method to check if move puts allied king in check
+
+  def puts_king_into_check?(dest)
+    opponent_locs = find_opponent_locs(@b_or_w, @board) 
+    
+    square_holder = @board.current_state[dest[0]][dest[1]]
+
+    @board.current_state[dest[0]][dest[1]] = self.dup
+    
+    king_is_checked = opponent_locs.any? { |loc| @board.current_state[loc[0]][loc[1]].checks_king?(loc) }
+
+    @board.current_state[dest[0], dest[1]] = square_holder
+
+    king_is_checked
+  end
+
 end
