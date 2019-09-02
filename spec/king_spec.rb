@@ -38,13 +38,13 @@ describe King do
     end
   end
 
-  describe '#puts_into_check?' do
+  describe '#checks_allied_king?' do
     it 'returns true if a destination will put the king into check' do
-      expect(@board.current_state[0][4].puts_into_check?([5, 2])).to eq(true)
+      expect(@board.current_state[0][4].checks_allied_king?([5, 2])).to eq(true)
     end
 
     it 'returns false if a destination will not put the king into check' do
-      expect(@board.current_state[0][4].puts_into_check?([3, 3])).to eq(false)
+      expect(@board.current_state[0][4].checks_allied_king?([3, 3])).to eq(false)
     end
   end
 end

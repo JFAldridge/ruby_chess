@@ -31,7 +31,7 @@ module Interface
       players.push(["Blip", 'computer'])
     else
       puts
-      puts "What is play two's name?"
+      puts "What is player two's name?"
       name_2 = gets.chomp
       if name_2 == '' || name_2 == name_1
       puts "Let's call you \"Pie.\""

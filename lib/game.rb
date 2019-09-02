@@ -12,6 +12,7 @@ class Game
     @whos_turn = 0
     @turn_color = 'white'
     @game_ongoing = true
+    @king_in_check = false
     game_cycle
   end
 
@@ -24,29 +25,52 @@ class Game
   end
 
   def game_cycle
-    get_move
+    while @game_ongoing
+      loc_dest = get_move
+      
+      loc = loc_dest[0]
+      dest = loc_dest[1]
+      
+      @board.move_piece(loc, dest)
 
-    puts 'taco'
+      ally_checker = @board.checks_enemy_king(@turn_color) 
+
+      if ally_checker
+        puts "#{allied_checker} checks #{@turn_color == 'white' ? 'black' : 'white'} king."
+        @king_in_check = true
+      else
+        @king_in_check = false
+      end
+
+      switch_turns
+    end
   end
 
-  
+  #begin get_move methods
 
   def get_move
-    puts "It's your turn, #{@players[@whos_turn].name}, what's you move?"
+    puts "It's your turn, #{@players[@whos_turn].name}, what's your move?"
     @board.print_board
     
     move = nil
 
     until move
       loc_and_dest = get_loc_and_dest
+      loc = loc_and_dest[0]
+      dest = loc_and_dest[1]
 
-      unless players_piece?(loc_and_dest[0])
+      unless players_piece?(loc)
         puts "You don't have a piece there to move."
         next
       end
 
-      unless valid_destination(loc_and_dest[0], loc_and_dest[1])
+      unless valid_destination(loc, dest)
         puts "That piece can not move there."
+        next
+      end
+
+      if @board.current_state[loc[0]][loc[1]].checks_allied_king?(dest)
+        puts @king_in_check ? "You must move your king out of check." : "That move puts your king in check."
         next
       end
 
@@ -55,6 +79,8 @@ class Game
     
     move
   end
+
+  #begin get_loc_and_dest methods
 
   def get_loc_and_dest
     loc_and_dest = nil
@@ -99,6 +125,8 @@ class Game
     readable
   end
 
+  #begin convert_to_loc_and_dest methods
+
   def convert_to_loc_and_dest(i_arr)
     loc_and_dest = i_arr.map do |alph_num|
       alph_num = [to_y(alph_num[1]), to_x(alph_num[0])]
@@ -115,6 +143,9 @@ class Game
     letters.index(let)
   end
 
+  #end convert_to_loc_and_dest methods
+  #end get_loc_and_dest methods
+
   def players_piece?(loc)
     return false if @board.current_state[loc[0]][loc[1]] == 0
     return true if @board.current_state[loc[0]][loc[1]].b_or_w == @turn_color
@@ -125,7 +156,7 @@ class Game
     @board.current_state[loc[0]][loc[1]].is_move_allowed?(loc, dest)
   end
 
-
+  #end get_move methods
 
 
   def switch_turns
