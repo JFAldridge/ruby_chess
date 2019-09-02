@@ -42,4 +42,11 @@ describe Queen do
       expect(@board.current_state[2][4].checks_king?([2, 4])).to eq(false)
     end
   end
+
+  describe '#checks_allied_king?' do
+    it 'does not return true when you check opponent king' do
+      @board.current_state[4][4] = @board.current_state[7][3]
+      expect(@board.current_state[4][4].checks_allied_king?([1, 4])).to eq(false)
+    end
+  end
 end

@@ -88,14 +88,13 @@ class Board
 
   #end move_piece methods
 
-  #begin checks_enemy_king methods
+  #begin checks_opponent_king methods
 
-  def checks_enemy_king(turn_color)
+  def checks_opponent_king(turn_color)
     ally_locs = find_ally_locs(turn_color) 
         
     checker_loc = ally_locs.find { |loc| @current_state[loc[0]][loc[1]].checks_king?(loc) }
 
-    puts checker_loc
     return false unless checker_loc
 
     checker = @current_state[checker_loc[0]][checker_loc[1]]
