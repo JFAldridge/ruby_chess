@@ -43,20 +43,4 @@ class King < Pieces
       opponent_king?(dir[0] + loc[0], dir[1] + loc[1])
     end
   end
-
-  def find_opponent_locs(b_or_w, board)
-    opponent_piece_locations = [] 
-
-    board.current_state.each_with_index do |row, y|
-      row.each_with_index do |space, x| 
-        next if space == 0
-        if space.b_or_w != b_or_w
-          opponent_piece_locations.push([y, x])
-        end 
-      end
-    end
-
-    opponent_piece_locations
-  end
-
 end

@@ -32,10 +32,10 @@ class Game
       
       @board.move_piece(loc, dest)
 
-      does_ally_check_king = @board.checks_opponent_king(@turn_color) 
+      does_ally_check_king = @board.checks_opponent_king(@players[@whos_turn].b_or_w) 
 
       if does_ally_check_king
-        puts "#{allied_checker} checks #{@turn_color == 'white' ? 'black' : 'white'} king."
+        puts "#{does_ally_check_king} checks #{@players[1 - @whos_turn].b_or_w} king."
         @players[1 - @whos_turn].king_in_check = true
       else
         @players[1 - @whos_turn].king_in_check = false

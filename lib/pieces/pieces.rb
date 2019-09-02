@@ -57,11 +57,13 @@ class Pieces
   #helper methods
 
   def opponent_piece?(y, x)
+    return false if off_board?(y, x)
     return false if open_space?(y, x)
     @board.current_state[y][x].b_or_w != @b_or_w 
   end
 
   def ally_piece?(y, x)
+    return false if off_board?(y, x)
     return false if open_space?(y, x)
     @board.current_state[y][x].b_or_w == @b_or_w 
   end
@@ -84,16 +86,18 @@ class Pieces
 
   #begin methods to check if move puts allied king in check
 
-  def checks_allied_king?(dest)
-     square_holder = @board.current_state[dest[0]][dest[1]]
-
-    @board.current_state[dest[0]][dest[1]] = self.dup
+  def checks_allied_king?(loc, dest)
+    loc_holder = @board.current_state[loc[0]][loc[1]]
+    dest_holder = @board.current_state[dest[0]][dest[1]]
+    @board.current_state[dest[0]][dest[1]] = loc_holder.dup
+    @board.current_state[loc[0]][loc[1]] = 0
 
     opponent_locs = find_opponent_locs(@b_or_w)
     
-    king_is_checked = opponent_locs.any? { |loc| @board.current_state[loc[0]][loc[1]].checks_king?(loc) }
+    king_is_checked = opponent_locs.any? { |lc| @board.current_state[lc[0]][lc[1]].checks_king?(lc) }
     
-    @board.current_state[dest[0]][dest[1]] = square_holder
+    @board.current_state[loc[0]][loc[1]] = loc_holder
+    @board.current_state[dest[0]][dest[1]] = dest_holder
 
     king_is_checked
   end

@@ -30,8 +30,8 @@ class HumanPlayer < Players
         next
       end
 
-      if @board.current_state[loc[0]][loc[1]].checks_allied_king?(dest)
-        puts @king_in_check ? "You must move your king out of check." : "That move puts your king in check."
+      if @board.current_state[loc[0]][loc[1]].checks_allied_king?(loc, dest)
+        puts @king_in_check ? "You must uncheck your king." : "That move puts your king in check."
         next
       end
 
