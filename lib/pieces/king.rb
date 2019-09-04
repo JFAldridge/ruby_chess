@@ -1,7 +1,7 @@
 require_relative 'pieces.rb'
 
 class King < Pieces
-  DIRECTIONS = [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 1], [1, -1], [1, -1], [-1, -1]]
+  DIRECTIONS = [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]]
 
   def initialize(b_or_w, board)
     super(b_or_w, board)
@@ -44,3 +44,4 @@ class King < Pieces
     end
   end
 end
+

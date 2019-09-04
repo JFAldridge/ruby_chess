@@ -11,12 +11,16 @@ class Bishop < Pieces
   attr_reader :uni
 
   def is_move_allowed?(loc, dest)
-    allowed_moves = find_allowed_moves_crossboard(loc[0], loc[1], DIRECTIONS)
-    
+    allowed_moves = find_allowed_moves(loc[0], loc[1])
+
     allowed_moves.include?(dest)
   end
 
-  def checks_king?(loc)
+  def find_allowed_moves(y, x)
+    find_allowed_moves_crossboard(y, x, DIRECTIONS)
+  end
+
+  def checks_king?(loc) 
     checks_king_crossboard?(loc[0], loc[1], DIRECTIONS)
   end
 

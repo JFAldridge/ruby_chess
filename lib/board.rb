@@ -90,16 +90,10 @@ class Board
 
   #begin checks_opponent_king methods
 
-  def checks_opponent_king(turn_color)
+  def checks_opponent_king?(turn_color)
     ally_locs = find_ally_locs(turn_color) 
         
-    checker_loc = ally_locs.find { |loc| @current_state[loc[0]][loc[1]].checks_king?(loc) }
-
-    return false unless checker_loc
-
-    checker = @current_state[checker_loc[0]][checker_loc[1]]
-
-    return "#{checker.b_or_w} ".capitalize + "#{checker.class}".downcase
+    checker_loc = ally_locs.any? { |loc| @current_state[loc[0]][loc[1]].checks_king?(loc) }
   end
 
   def find_ally_locs(b_or_w)
@@ -119,7 +113,45 @@ class Board
     
   #end checks_enemy_king methods
 
+  #begin check_mate? methods
+
+  def check_mate?(b_or_w)
+    checked_team_locs = find_checked_team_locs(b_or_w)
+
+    return false if ally_piece_can_uncheck_king?(checked_team_locs)
+    return true
+  end
+
+  def find_checked_team_locs(b_or_w)
+    opponent_piece_locations = [] 
+
+    @current_state.each_with_index do |row, y|
+      row.each_with_index do |space, x| 
+        next if space == 0
+        if space.b_or_w != b_or_w
+          opponent_piece_locations.push([y, x])
+        end 
+      end
+    end
+    opponent_piece_locations
+  end
+
+
+  def ally_piece_can_uncheck_king?(allied_pieces_locs)
+    allied_pieces_locs.any? do |loc|
+      allowed_moves = @current_state[loc[0]][loc[1]].find_allowed_moves(loc[0], loc[1])
+
+      allowed_moves.any? do |dest| 
+        unchecks = !@current_state[loc[0]][loc[1]].checks_allied_king?(loc, dest)
+        unchecks
+      end
+    end
+  end
+
+  #end check_mate? methods
 
 end
+
+
 
 
