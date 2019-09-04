@@ -36,8 +36,7 @@ class Game
 
       if @board.checks_opponent_king?(@players[@whos_turn].b_or_w) 
         if @board.check_mate?(@players[@whos_turn].b_or_w)
-          put "ju lose"
-          gameover
+          game_over
         else
           puts "#{@players[1 - @whos_turn].b_or_w} ".capitalize << "king is checked"
           @players[1 - @whos_turn].king_in_check = true
@@ -48,15 +47,20 @@ class Game
     end
   end
 
-  #begin get_move methods
+  def game_over
+    @board.print_board
 
-  
-
+    @game_ongoing = false
+    
+    puts "#{@players[@whos_turn].b_or_w} ".capitalize << "side wins!"
+  end
 
   def switch_turns
     @whos_turn = 1 - @whos_turn
     @turn_color = @turn_color =='white' ? 'black' : 'white'
   end
 end
+
+
 
 game = Game.new
