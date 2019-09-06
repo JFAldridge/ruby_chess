@@ -29,10 +29,12 @@ class Game
 
       loc_dest = @players[@whos_turn].get_move
       
-      loc = loc_dest[0]
-      dest = loc_dest[1]
-      
-      @board.move_piece(loc, dest)
+      if loc_dest.length == 2
+        @board.move_piece(loc_dest[0], loc_dest[1])
+      else
+        @board.move_piece(loc_dest[0], loc_dest[1])
+        @board.move_piece(loc_dest[2], loc_dest[3])
+      end
 
       if @board.checks_opponent_king?(@players[@whos_turn].b_or_w) 
         if @board.check_mate?(@players[@whos_turn].b_or_w)

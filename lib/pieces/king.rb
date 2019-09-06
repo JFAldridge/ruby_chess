@@ -43,5 +43,6 @@ class King < Pieces
       opponent_king?(dir[0] + loc[0], dir[1] + loc[1])
     end
   end
+
 end
 

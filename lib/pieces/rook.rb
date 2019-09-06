@@ -9,12 +9,11 @@ class Rook < Pieces
     @uni = @b_or_w == 'white' ? "\u2656" : "\u265C"
   end
 
+  attr_accessor :been_moved
   attr_reader :uni
 
   def is_move_allowed?(loc, dest)
     allowed_moves = find_allowed_moves(loc[0], loc[1])
-
-    @been_moved = true
     
     allowed_moves.include?(dest)
   end
@@ -28,4 +27,6 @@ class Rook < Pieces
   end
 
 end
+
+
 

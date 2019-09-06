@@ -25,6 +25,21 @@ class HumanPlayer < Players
         next
       end
 
+      if @board.possible_castling?(loc, dest, @king_in_check)
+        y_or_n = nil
+
+        puts "Would you like to castle?"
+
+        until y_or_n
+          puts "Enter 'y' or 'n'."
+          input = gets.chomp.downcase
+
+          y_or_n = input if input == 'y' || input == 'n'
+        end
+
+        return @board.castling_coordinates(loc, dest) if y_or_n == 'y'
+      end
+
       unless valid_destination(loc, dest)
         puts "That piece can not move there."
         next

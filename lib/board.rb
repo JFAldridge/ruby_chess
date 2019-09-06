@@ -52,6 +52,8 @@ class Board
     captured = capture_if_can(dest)
 
     moving_piece = @current_state[loc[0]][loc[1]]
+
+    moving_piece.been_moved = true if moving_piece.instance_of?(King) || moving_piece.instance_of?(Rook)
     
     @current_state[dest[0]][dest[1]] = moving_piece 
 
@@ -149,6 +151,43 @@ class Board
   end
 
   #end check_mate? methods
+
+  def possible_castling?(loc, dest, king_in_check)
+    moving_piece = @current_state[loc[0]][loc[1]]
+    y = moving_piece.b_or_w == 'white' ? 7 : 0
+    
+    return false unless moving_piece.instance_of? King
+    return false if moving_piece.been_moved
+    return false if king_in_check
+
+    return false if dest[0] != y
+
+    if dest[1] < 4
+      return false unless @current_state[y][0].instance_of? Rook
+      return false if @current_state[y][0].been_moved
+
+      return false unless @current_state[y][1] == 0 && @current_state[y][2] == 0 && @current_state[y][3] == 0
+      return false if moving_piece.checks_allied_king?(loc, [y, 3]) || moving_piece.checks_allied_king?(loc, [y, 2])
+    end
+
+    if dest[1] > 4
+      return false unless @current_state[y][7].instance_of? Rook
+      return false if @current_state[y][7].been_moved
+
+      return false unless @current_state[y][5] == 0 && @current_state[y][6] == 0
+      return false if moving_piece.checks_allied_king?(loc, [y, 5]) || moving_piece.checks_allied_king?(loc, [y, 6])
+    end
+
+    return true
+  end
+
+  def castling_coordinates(loc, dest)
+    moving_piece = @current_state[loc[0]][loc[1]]
+    y = moving_piece.b_or_w == 'white' ? 7 : 0
+
+    return [[y, 4], [y, 2], [y, 0], [y, 3]] if dest[1] < 4
+    return [[y, 4], [y, 6], [y, 7], [y, 5]] if dest[1] > 4
+  end
 
 end
 
