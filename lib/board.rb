@@ -11,10 +11,11 @@ class Board
     @current_state = []
     @white_taken = []
     @black_taken = []
+    @en_passant_column = nil
     set_board
   end
 
-  attr_accessor :current_state
+  attr_accessor :current_state, :en_passant_column
   
   def set_board
     @current_state.push([Rook.new('black', self), Knight.new('black', self), Bishop.new('black', self), Queen.new('black', self), King.new('black', self), Bishop.new('black', self), Knight.new('black', self), Rook.new('black', self)])
@@ -52,6 +53,12 @@ class Board
     captured = capture_if_can(dest)
 
     moving_piece = @current_state[loc[0]][loc[1]]
+
+    if moving_piece.instance_of?(Pawn) && (loc[0] - dest[0]).abs == 2
+      @en_passant_column = dest[1]
+    else
+      @en_passant_column = nil
+    end
 
     moving_piece.been_moved = true if moving_piece.instance_of?(King) || moving_piece.instance_of?(Rook)
     
@@ -151,6 +158,7 @@ class Board
   end
 
   #end check_mate? methods
+  #begin castling methods
 
   def possible_castling?(loc, dest, king_in_check)
     moving_piece = @current_state[loc[0]][loc[1]]
@@ -188,6 +196,37 @@ class Board
     return [[y, 4], [y, 2], [y, 0], [y, 3]] if dest[1] < 4
     return [[y, 4], [y, 6], [y, 7], [y, 5]] if dest[1] > 4
   end
+
+    
+  #end castling methods
+  #begin en_passant methods
+  
+  def en_passant?(loc, dest)
+    return false unless @en_passant_column
+    return false unless @current_state[loc[0]][loc[1]].instance_of?(Pawn)
+    return false unless loc[1] == @en_passant_column - 1 || loc[1] == @en_passant_column + 1
+    return false unless dest[1] == @en_passant_column
+    
+    correct_starting_row = @current_state[loc[0]][loc[1]].b_or_w == 'white' ? 3 : 4
+
+    return false unless loc[0] == correct_starting_row
+
+    return true
+  end
+
+  def en_passant_capture(dest)
+    capture_pawn_row = dest[0] == 2 ? 3 : 4
+
+    captured_pawn = @current_state[capture_pawn_row][dest[1]]
+
+    @current_state[capture_pawn_row][dest[1]] = 0
+
+    captured_pawn.b_or_w == 'white' ? @white_taken.push(captured_pawn) : @black_taken.push(captured_pawn)
+    
+    captured_piece = "#{captured_pawn.b_or_w} ".capitalize << "pawn"
+  end
+
+  #end en_passant methods
 
 end
 

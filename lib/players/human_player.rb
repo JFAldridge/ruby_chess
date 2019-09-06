@@ -25,6 +25,10 @@ class HumanPlayer < Players
         next
       end
 
+      if @board.en_passant?(loc, dest)
+        return [[], loc, dest]
+      end
+
       if @board.possible_castling?(loc, dest, @king_in_check)
         y_or_n = nil
 
