@@ -10,6 +10,10 @@ class HumanPlayer < Players
   attr_accessor :name, :b_or_w, :board, :king_in_check
 
   def get_move
+    if @board.hundred_moves >= 100
+      return([]) if declare_draw?
+    end
+
     puts "It's your turn, #{@name}, what's your move?"
     @board.print_board
     
@@ -137,4 +141,23 @@ class HumanPlayer < Players
   end
 
   #end get_move methods
+
+  def declare_draw?
+    puts "Would you like to declare a draw?"
+    
+    y_or_n = nil
+
+    until y_or_n
+      until y_or_n
+        puts "Enter 'y' or 'n'."
+        input = gets.chomp.downcase
+
+        y_or_n = input if input == 'y' || input == 'n'
+      end
+    end
+
+    return true if y_or_n == 'y'
+    
+    return false
+  end
 end

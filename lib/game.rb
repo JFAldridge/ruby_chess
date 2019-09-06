@@ -34,14 +34,16 @@ class Game
       elsif loc_dest.length == 3
         @board.en_passant_capture(loc_dest[2])
         @board.move_piece(loc_dest[1], loc_dest[2])
-      else
+      elsif loc_dest.length == 4
         @board.move_piece(loc_dest[0], loc_dest[1])
         @board.move_piece(loc_dest[2], loc_dest[3])
+      else
+        game_over('draw')
       end
 
       if @board.checks_opponent_king?(@players[@whos_turn].b_or_w) 
         if @board.check_mate?(@players[@whos_turn].b_or_w)
-          game_over
+          game_over('win')
         else
           puts "#{@players[1 - @whos_turn].b_or_w} ".capitalize << "king is checked"
           @players[1 - @whos_turn].king_in_check = true
@@ -52,12 +54,16 @@ class Game
     end
   end
 
-  def game_over
+  def game_over(condition)
     @board.print_board
 
     @game_ongoing = false
     
-    puts "#{@players[@whos_turn].b_or_w} ".capitalize << "side wins!"
+    if condition == 'win'
+      puts "#{@players[@whos_turn].b_or_w} ".capitalize << "side wins!"
+    else
+      puts "The game is a draw."
+    end
   end
 
   def switch_turns

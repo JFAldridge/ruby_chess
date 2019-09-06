@@ -12,10 +12,11 @@ class Board
     @white_taken = []
     @black_taken = []
     @en_passant_column = nil
+    @hundred_moves = 0
     set_board
   end
 
-  attr_accessor :current_state, :en_passant_column
+  attr_accessor :current_state, :en_passant_column, :hundred_moves
   
   def set_board
     @current_state.push([Rook.new('black', self), Knight.new('black', self), Bishop.new('black', self), Queen.new('black', self), King.new('black', self), Bishop.new('black', self), Knight.new('black', self), Rook.new('black', self)])
@@ -50,9 +51,13 @@ class Board
   #begin move_piece methods
 
   def move_piece(loc, dest)
+    @hundred_moves += 1
+
     captured = capture_if_can(dest)
 
     moving_piece = @current_state[loc[0]][loc[1]]
+
+    @hundred_moves = 0 if moving_piece.instance_of?(Pawn)
 
     if moving_piece.instance_of?(Pawn) && (loc[0] - dest[0]).abs == 2
       @en_passant_column = dest[1]
@@ -69,6 +74,8 @@ class Board
     puts "#{moving_piece.b_or_w} ".capitalize << "#{moving_piece.class} ".downcase << "to #{conv_x(dest[1])}#{conv_y(dest[0])}."
     
     if captured
+      @hundred_moves = 0
+
       puts captured + "falls."
     end
 
