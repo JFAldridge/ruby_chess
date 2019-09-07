@@ -11,7 +11,7 @@ class HumanPlayer < Players
 
   def get_move
     if @board.hundred_moves >= 100
-      return([]) if declare_draw?
+      return('drawgame') if declare_draw?
     end
 
     puts "It's your turn, #{@name}, what's your move?"
@@ -21,6 +21,9 @@ class HumanPlayer < Players
 
     until move
       loc_and_dest = get_loc_and_dest
+
+      return 'savegame' if loc_and_dest == 'save'
+
       loc = loc_and_dest[0]
       dest = loc_and_dest[1]
 
@@ -70,7 +73,9 @@ class HumanPlayer < Players
     loc_and_dest = nil
     
     until loc_and_dest
-      input = gets.chomp
+      input = gets.chomp.downcase
+
+      loc_and_dest = 'save' if input == 's'
       
       input_arr = successful_input_arr(input)
       next unless input_arr
@@ -157,7 +162,7 @@ class HumanPlayer < Players
     end
 
     return true if y_or_n == 'y'
-    
+
     return false
   end
 end
