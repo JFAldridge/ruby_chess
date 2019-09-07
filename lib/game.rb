@@ -31,6 +31,8 @@ class Game
       
       if loc_dest.length == 2
         @board.move_piece(loc_dest[0], loc_dest[1])
+
+        @board.upgrade_pawn(loc_dest[1]) if @board.pawn_upgrade?(loc_dest[1])
       elsif loc_dest.length == 3
         @board.en_passant_capture(loc_dest[2])
         @board.move_piece(loc_dest[1], loc_dest[2])

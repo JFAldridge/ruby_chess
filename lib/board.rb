@@ -235,6 +235,46 @@ class Board
 
   #end en_passant methods
 
+  def pawn_upgrade?(dest)
+    moved_piece = @current_state[dest[0]][dest[1]]
+
+    return false unless moved_piece.instance_of?(Pawn)
+
+    last_row = moved_piece.b_or_w == 'white' ? 0 : 7 
+
+    return false unless dest[0] == last_row
+
+    return true
+  end
+
+  def upgrade_pawn(dest)
+    b_or_w = @current_state[dest[0]][dest[1]].b_or_w
+
+    puts "Would you like to upgrade to a (1)Queen, (2)Rook, (3)Bishop, or (4)Knight?"
+    piece_choice = nil
+
+    until piece_choice
+      puts "Pick a piece by it's corresponding number."
+
+      input = gets.chomp.to_i
+      next unless (1..4).include? input
+
+      piece_choice = input
+    end
+
+    case piece_choice
+    when 1
+      @current_state[dest[0]][dest[1]] = Queen.new(b_or_w, self)
+    when 2
+      @current_state[dest[0]][dest[1]] = Rook.new(b_or_w, self)
+    when 3
+      @current_state[dest[0]][dest[1]] = Bishop.new(b_or_w, self)
+    else
+      @current_state[dest[0]][dest[1]] = Knight.new(b_or_w, self)
+    end
+
+  end
+
 end
 
 
