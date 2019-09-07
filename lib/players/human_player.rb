@@ -1,6 +1,5 @@
-require_relative 'players.rb'
 
-class HumanPlayer < Players
+class HumanPlayer
   def initialize(name, b_or_w, board)
     @name = name
     @b_or_w = b_or_w

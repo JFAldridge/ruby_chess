@@ -2,15 +2,7 @@ module Interface
 
   def get_player_names_and_type
     players = []
-    player_comp = nil
-    
-    puts "Would you like to play against the computer or another human?"
-    
-    until player_comp 
-      puts "Enter 1 for computer or 2 for human"
-      input = gets.chomp.to_i
-      player_comp = input if input == 1 || input == 2
-    end
+    player_comp = 2
     
     if player_comp == 1
       puts "What's your name?"

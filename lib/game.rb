@@ -1,6 +1,5 @@
 require_relative 'board.rb'
 require_relative './players/human_player.rb'
-require_relative './players/computer_player.rb'
 require_relative 'interface.rb'
 require 'yaml'
 

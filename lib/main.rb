@@ -2,7 +2,6 @@ require_relative 'game.rb'
 
 class StartsGame
   def initialize
-    introduction
     create_or_load
     @game = nil
   end
